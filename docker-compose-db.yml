@@ -1,0 +1,15 @@
+version: '3'
+services:
+  db:
+    image: 'postgres'
+    ports:
+      - '5434:5432'
+    environment:
+      PGDATA: /var/pgdata
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'FVGnZdAGDQ8j6bv65cfR5azIHxc6tzUa'
+      POSTGRES_DB: 'songoapi_db'
+    volumes:
+      - 'songodata:/var/songodata'
+volumes:
+  songodata:
