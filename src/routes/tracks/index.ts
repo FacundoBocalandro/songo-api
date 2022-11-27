@@ -18,6 +18,5 @@ export const TrackRoutes: PigRoutesInterface[] = [
     route: '/tracks',
     controller: TrackController,
     action: 'save',
-    auth: true
   }
 ];

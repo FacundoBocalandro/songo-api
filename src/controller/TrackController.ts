@@ -8,6 +8,7 @@ export class TrackController {
   private trackRepository = getRepository(Track);
 
   async save(request: Request) {
+    console.log(request.body);
     try {
       return this.trackRepository.save(request.body);
     } catch (err) {
@@ -20,16 +21,19 @@ export class TrackController {
     const matchesMap = await Promise.all(tracks.map(async (track, idx) => {
       const matches = await this.trackRepository.find({
         where: {
-          bitrate: track.bitrate,
-          durationInSeconds: Between(track.durationInSeconds - 5, track.durationInSeconds + 5),
+          durationInSeconds: Between(track.durationInSeconds - 2, track.durationInSeconds + 2),
         }
       })
 
-      if (!matches.length) return null;
+      const nameMatches = matches.filter(match => {
+        return stringSimilarity.compareTwoStrings(match.name, track.name) > 0.75;
+      });
+
+      if (!nameMatches.length) return null;
 
       return {
         idx,
-        match: matches[stringSimilarity.findBestMatch(track.name, matches.map(match => match.name)).bestMatchIndex]
+        match: matches[stringSimilarity.findBestMatch(track.name, nameMatches.map(match => match.name)).bestMatchIndex]
       };
     }));
     return matchesMap.filter(match => match !== null)

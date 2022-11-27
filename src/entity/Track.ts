@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-enum Genres {
+enum Genre {
   DEEP_HOUSE = 'deep_house',
   TECH_HOUSE = 'tech_house',
   MELODIC_TECHNO = 'melodic_techno',
@@ -23,9 +23,6 @@ export class Track {
   @Column({nullable: false, type: 'float'})
   durationInSeconds: number;
 
-  @Column({nullable: false, type: 'float'})
-  bitrate: number;
-
   @Column({nullable: false, type: 'text'})
-  predictedGenre: Genres;
+  predictedGenre: Genre;
 }
