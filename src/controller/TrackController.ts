@@ -25,6 +25,8 @@ export class TrackController {
         }
       })
 
+      if (!matches.length) return null;
+
       const bestMatch = stringSimilarity.findBestMatch(track.name, matches.map(match => match.name));
       if (bestMatch.bestMatch.rating < 0.75) return null;
 
