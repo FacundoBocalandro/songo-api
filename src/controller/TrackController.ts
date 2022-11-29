@@ -25,15 +25,12 @@ export class TrackController {
         }
       })
 
-      const nameMatches = matches.filter(match => {
-        return stringSimilarity.compareTwoStrings(match.name, track.name) > 0.75;
-      });
-
-      if (!nameMatches.length) return null;
+      const bestMatch = stringSimilarity.findBestMatch(track.name, matches.map(match => match.name));
+      if (bestMatch.bestMatch.rating < 0.75) return null;
 
       return {
         idx,
-        match: matches[stringSimilarity.findBestMatch(track.name, nameMatches.map(match => match.name)).bestMatchIndex]
+        match: matches[bestMatch.bestMatchIndex]
       };
     }));
     return matchesMap.filter(match => match !== null)
